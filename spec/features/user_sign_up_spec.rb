@@ -7,22 +7,21 @@ RSpec.describe "User signup" do
     expect(current_path).to eq('/signup')
   end
 
-  # scenario "Unauthenticated user signs up" do
-  #   visit "/"
-  #
-  #   expect(page).not_to have_text("Logout")
-  #
-  #   click_on "Sign Up"
-  #   fill_in "Email:", with: "joe@example.com"
-  #   fill_in "Password:", with: "password"
-  #   fill_in "Confirm Password:", with: "password"
-  #   click_on "Submit"
-  #
-  #   expect(page).to have_text("Logout")
-  #   expect(page).to have_text("Succesfully logged in")
-  #   expect(current_path).to eq('/')
-  # end
-  #
+  scenario "Unauthenticated user signs up" do
+    visit "/"
+
+    expect(page).not_to have_text("Logout")
+
+    fill_in "user[email]", with: "joe@example.com"
+    fill_in "user[password]", with: "password"
+    fill_in "user[password_confirmation]", with: "password"
+    click_on "Submit"
+
+    expect(page).to have_text("Logout")
+    expect(page).to have_text("Succesfully logged in")
+    expect(current_path).to eq('/')
+  end
+
   # scenario "Email is already taken" do
   #   User.new({email: 'joe@example.com'})
   #
