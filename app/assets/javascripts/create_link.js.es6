@@ -61,7 +61,7 @@ function markRead() {
     url: `api/v1/links/${id}`
   })
   .then($(`#link-${id} .read-button`).text('Mark as Unread'))
-  .then($(`#link-${id} .link_read`).text('true'))
+  .then($(`#link-${id} .link_read`).text('Read? true'))
   .then($(`#link-${id}`).addClass('read'))
   .then(markUnreadEvent(id))
 }
@@ -79,7 +79,7 @@ function markUnread(){
     url: `api/v1/links/${id}`
   })
   .then($(`#link-${id} .read-button`).text('Mark as Read'))
-  .then($(`#link-${id} .link_read`).text('false'))
+  .then($(`#link-${id} .link_read`).text('Read? false'))
   .then($(`#link-${id}`).removeClass('read'))
   .then(markReadEvent(id))
 }
@@ -87,11 +87,11 @@ function markUnread(){
 function linkHTML(link) {
     if (link.read === false){
     return `<div class='link' data-id='${link.id}' id="link-${link.id}">
-              <p class='link-title'>${ link.title }</p>
-              <p class='link-url'>${ link.url }</p>
+              <p class='link-title'>Title: ${ link.title }</p>
+              <p class='link-url'>URL: ${ link.url }</p>
 
               <p class="link_read">
-                ${ link.read }
+                Read? ${ link.read }
               </p>
               <p class="link_buttons">
                 <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Read</button>
