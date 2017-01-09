@@ -35,34 +35,53 @@ function getLinkData() {
 }
 
 function renderLink(link){
-  $("#links-list").append( linkHTML(link) )
+  $("#links-list").prepend( linkHTML(link) )
   clearLink();
   attachReadEvent(link);
 }
 
 function attachReadEvent(link){
   if (link.read === false) {
-    markReadEvent
+    markReadEvent(link.id)
   } else {
-    markUneadEvent
+    markUnreadEvent(link.id)
   }
 }
 
-function markReadEvent(){
-  $('#links-list').on('click', 'button.mark-read', function(){
-    var $this = $(this);
-    var linkId = $this.parents('.link').data('id');
-
-    $.ajax({
-      url: '/api/v1/links/' + linkId,
-      method: 'PATCH',
-      data: {read: true}
-    });
-  })
+function markReadEvent(id){
+  $(`#link-${id} .read-button`).on('click', markRead)
 }
 
-function markUneadEvent(){
+function markRead() {
+  var readLink = $(this).data("url")
+  var id = $(this).data("id")
+  $.ajax( {
+    method: 'PATCH',
+    data: {read: true},
+    url: `api/v1/links/${id}`
+  })
+  .then($(`#link-${id} .read-button`).text('Mark as Unread'))
+  .then($(`#link-${id} .link_read`).text('true'))
+  .then($(`#link-${id}`).addClass('read'))
+  .then(markUnreadEvent(id))
+}
 
+function markUnreadEvent(id){
+  $(`#link-${id} .read-button`).on('click', markUnread)
+}
+
+function markUnread(){
+  var readLink = $(this).data("url")
+  var id = $(this).data("id")
+  $.ajax( {
+    method: 'PATCH',
+    data: {read: false},
+    url: `api/v1/links/${id}`
+  })
+  .then($(`#link-${id} .read-button`).text('Mark as Read'))
+  .then($(`#link-${id} .link_read`).text('false'))
+  .then($(`#link-${id}`).removeClass('read'))
+  .then(markReadEvent(id))
 }
 
 function linkHTML(link) {
@@ -75,7 +94,7 @@ function linkHTML(link) {
                 ${ link.read }
               </p>
               <p class="link_buttons">
-                <button class="read-button" data-id='${link.id}'>Mark as Read</button>
+                <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Read</button>
                 <a href='/links/${link.id}/edit'>Edit</a>
                 <button class='delete-link'>Delete</button>
               </p>
@@ -89,7 +108,7 @@ function linkHTML(link) {
               ${ link.read }
             </p>
             <p class="link_buttons">
-              <button class="read-button" data-id='${link.id}'>Mark as Read</button>
+              <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Unread</button>
               <a href='/links/${link.id}/edit'>Edit</a>
               <button class='delete-link'>Delete</button>
             </p>
