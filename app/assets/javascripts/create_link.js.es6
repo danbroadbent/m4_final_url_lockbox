@@ -1,11 +1,16 @@
 var $newLinkTitle, $newLinkUrl;
 
 $(document).ready(function(){
+  displayExistingLinks()
   $newLinkTitle = $("#link-title");
   $newLinkUrl  = $("#link-url");
 
   $("#new-link").on('submit', createLink);
 })
+
+function displayExistingLinks(){
+  $.get("api/v1/links")
+}
 
 function createLink (event){
   event.preventDefault();
@@ -54,5 +59,5 @@ function clearLink() {
 }
 
 function displayFailure(failureData){
-  console.log("FAILED attempt to create new Link: " + failureData.responseText);
+  $('#link-errors').append(`<p>FAILED attempt to create new Link: ${failureData.responseText}</p>`);
 }
