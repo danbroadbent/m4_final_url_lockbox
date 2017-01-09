@@ -7,6 +7,15 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
+def login_user
+  User.create({email: 'joe@example.com', password: 'password'})
+  visit "/"
+  click_on "Log In"
+  fill_in "email", with: "joe@example.com"
+  fill_in "password", with: "password"
+  click_on "Submit"
+end
+
 Capybara.javascript_driver = :poltergeist
 
 
