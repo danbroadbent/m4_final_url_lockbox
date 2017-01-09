@@ -37,10 +37,36 @@ function getLinkData() {
 function renderLink(link){
   $("#links-list").append( linkHTML(link) )
   clearLink();
+  attachReadEvent(link);
+}
+
+function attachReadEvent(link){
+  if (link.read === false) {
+    markReadEvent
+  } else {
+    markUneadEvent
+  }
+}
+
+function markReadEvent(){
+  $('#links-list').on('click', 'button.mark-read', function(){
+    var $this = $(this);
+    var linkId = $this.parents('.link').data('id');
+
+    $.ajax({
+      url: '/api/v1/links/' + linkId,
+      method: 'PATCH',
+      data: {read: true}
+    });
+  })
+}
+
+function markUneadEvent(){
+
 }
 
 function linkHTML(link) {
-
+    if (link.read === false){
     return `<div class='link' data-id='${link.id}' id="link-${link.id}">
               <p class='link-title'>${ link.title }</p>
               <p class='link-url'>${ link.url }</p>
@@ -49,11 +75,26 @@ function linkHTML(link) {
                 ${ link.read }
               </p>
               <p class="link_buttons">
-                <button class="mark-read">Mark as Read</button>
+                <button class="read-button" data-id='${link.id}'>Mark as Read</button>
                 <a href='/links/${link.id}/edit'>Edit</a>
                 <button class='delete-link'>Delete</button>
               </p>
             </div>`
+    } else {
+    return `<div class='link read' data-id='${link.id}' id="link-${link.id}">
+            <p class='link-title'>${ link.title }</p>
+            <p class='link-url'>${ link.url }</p>
+
+            <p class="link_read">
+              ${ link.read }
+            </p>
+            <p class="link_buttons">
+              <button class="read-button" data-id='${link.id}'>Mark as Read</button>
+              <a href='/links/${link.id}/edit'>Edit</a>
+              <button class='delete-link'>Delete</button>
+            </p>
+          </div>`
+      }
 }
 
 function clearLink() {
