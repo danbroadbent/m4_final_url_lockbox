@@ -1,0 +1,9 @@
+<h1>Edit Link</h1>
+
+<%= form_for @link do |f| %>
+
+  URL: <%= f.text_field :url %>
+  Title: <%= f.text_field :title %>
+  <%= f.submit "Submit" %>
+
+<% end %>
