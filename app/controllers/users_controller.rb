@@ -10,11 +10,12 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to :root
     else
+      flash[:errors] = user.errors.full_messages[0]
       redirect_to :signup
     end
   end
 
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end
