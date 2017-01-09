@@ -10,6 +10,9 @@ $(document).ready(function(){
 
 function displayExistingLinks(){
   $.get("api/v1/links")
+  .then(function(links){
+    links.forEach(renderLink)
+  })
 }
 
 function createLink (event){
@@ -33,7 +36,7 @@ function getLinkData() {
 
 function renderLink(link){
   $("#links-list").append( linkHTML(link) )
-  // clearLink();
+  clearLink();
 }
 
 function linkHTML(link) {

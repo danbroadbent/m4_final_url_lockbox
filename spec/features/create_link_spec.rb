@@ -21,6 +21,6 @@ RSpec.describe "can create links", :js => :true do
     fill_in "URL:", :with => "turing"
     click_on "Add Link"
 
-    expect(page).to have_text("Invalid link, please use a valid URL")
+    expect(page).to have_text("Url is not a valid URL")
   end
 end
