@@ -120,7 +120,6 @@ function linkHTML(link) {
               <p class="link_buttons">
                 <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Read</button>
                 <input type="button" onclick="location.href='/links/${link.id}/edit';" value="Edit" />
-                <button class='delete-link'>Delete</button>
               </p>
               <span id='hotness'></span>
             </div>`
@@ -135,7 +134,6 @@ function linkHTML(link) {
             <p class="link_buttons">
               <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Unread</button>
               <input type="button" onclick="location.href='/links/${link.id}/edit';" value="Edit" />
-              <button class='delete-link'>Delete</button>
             </p>
             <span id='hotness'></span>
           </div>`
