@@ -48,18 +48,23 @@ function renderLink(link){
 function attachHotness(link){
   $.get("https://db-mod4finalservice.herokuapp.com/api/v1/reads")
   .then(function(hotLinks){
-    hotLinks.forEach( attachHotTag.bind(hotLinks, link))
+    hotLinks.forEach( function(hotLink, index) {
+      debugger
+      if (hotLink.url === link.url && index === 0) {
+        markTop(link)
+      } else {
+        markHot(link)
+      }
+    })
   })
-}
-
-function attachHotTag(hotLinks, link){
-  if (hotLinks.url === link.url) {
-    markHot(link)
-  }
 }
 
 function markHot(link){
   $(`#link-${link.id} #hotness`).text('HOT!')
+}
+
+function markTop(link){
+  $(`#link-${link.id} #topness`).text('TOP!')
 }
 
 function attachReadEvent(link){
@@ -77,7 +82,6 @@ function markReadEvent(id){
 function markRead() {
   var readLink = $(this).data("url")
   var id = $(this).data("id")
-  debugger
   $.ajax( {
     method: 'PATCH',
     data: {read: true},
