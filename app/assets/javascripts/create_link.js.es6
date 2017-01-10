@@ -48,11 +48,11 @@ function renderLink(link){
 function attachHotness(link){
   $.get("https://db-mod4finalservice.herokuapp.com/api/v1/reads")
   .then(function(hotLinks){
-    hotLinks.forEach( function(hotLink, index) {
-      debugger
-      if (hotLink.url === link.url && index === 0) {
+    hotLinks.forEach( function(element, index) {
+      if (element.url === link.url && index === 0) {
         markTop(link)
-      } else {
+        markHot(link)
+      } else if (element.url === link.url){
         markHot(link)
       }
     })
@@ -130,6 +130,7 @@ function linkHTML(link) {
                 <input type="button" onclick="location.href='/links/${link.id}/edit';" value="Edit" />
               </p>
               <span id='hotness'></span>
+              <span id='topness'></span>
             </div>`
     } else {
     return `<div class='link read' data-id='${link.id}' id="link-${link.id}">
@@ -144,6 +145,7 @@ function linkHTML(link) {
               <input type="button" onclick="location.href='/links/${link.id}/edit';" value="Edit" />
             </p>
             <span id='hotness'></span>
+            <span id='topness'></span>
           </div>`
       }
 }
