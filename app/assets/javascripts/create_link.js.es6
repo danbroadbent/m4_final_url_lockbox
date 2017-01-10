@@ -64,6 +64,11 @@ function markRead() {
   .then($(`#link-${id} .link_read`).text('Read? true'))
   .then($(`#link-${id}`).addClass('read'))
   .then(markUnreadEvent(id))
+  .then($.ajax( {
+    method: 'POST',
+    data: {url: readLink},
+    url: "https://db-mod4finalservice.herokuapp.com/"
+  }))
 }
 
 function markUnreadEvent(id){
