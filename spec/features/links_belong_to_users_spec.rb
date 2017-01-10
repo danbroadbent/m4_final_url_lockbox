@@ -2,9 +2,11 @@ require "rails_helper"
 
 RSpec.describe "Links belong to users" do
   scenario "create a new link" do
-    Link.create({title: 'Turing', url: 'http://turing.io', user_id: 1})
+    User.create({id:1})
+    link = Link.create({title: 'Turing', url: 'http://turing.io', user_id: 1})
+    user = User.find(1)
 
-    expect(User.link.last).to eq(User.find(1))
+    expect(user.links.last).to eq(link)
     expect(Link.last.url).to eq("http://turing.io")
   end
 
