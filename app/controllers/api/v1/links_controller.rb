@@ -1,6 +1,7 @@
 class Api::V1::LinksController < ApplicationController
   def index
-    links = Link.all
+    user = User.find(params[:id])
+    links = user.links
     render json: links, status: 200
   end
 
@@ -28,6 +29,6 @@ class Api::V1::LinksController < ApplicationController
   private
 
   def link_params
-    params.permit(:title, :url, :read)
+    params.permit(:title, :url, :read, :user_id)
   end
 end

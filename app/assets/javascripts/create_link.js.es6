@@ -9,7 +9,7 @@ $(document).ready(function(){
 })
 
 function displayExistingLinks(){
-  $.get("api/v1/links")
+  $.get("api/v1/links", {id: $("#current_user")[0].innerHTML})
   .then(function(links){
     links.forEach(renderLink)
   })
@@ -22,7 +22,11 @@ function createLink (event){
 
   var link = getLinkData();
 
-  $.post("/api/v1/links", link)
+  $.ajax( {
+    method: 'POST',
+    data: {user_id: $("#current_user")[0].innerHTML, title: link.title, url: link.url},
+    url: `api/v1/links`
+  })
    .then( renderLink )
    .fail( displayFailure )
  }
