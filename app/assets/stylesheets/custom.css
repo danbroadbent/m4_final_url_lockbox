@@ -1,0 +1,11 @@
+.link {
+  border-radius: 25px;
+  border: 2px solid #000000;
+  padding: 20px;
+  margin: 20px;
+}
+
+.link.read  {
+  background-color: gray;
+  text-decoration: line-through;
+}
