@@ -38,6 +38,24 @@ function renderLink(link){
   $("#links-list").prepend( linkHTML(link) )
   clearLink();
   attachReadEvent(link);
+  attachHotness(link);
+}
+
+function attachHotness(link){
+  $.get("https://db-mod4finalservice.herokuapp.com/api/v1/reads")
+  .then(function(hotLinks){
+    hotLinks.forEach( attachHotTag.bind(hotLinks, link) )
+  })
+}
+
+function attachHotTag(hotLinks, link){
+  if (hotLinks.url === link.url) {
+    markHot(link)
+  }
+}
+
+function markHot(link){
+  $(`#link-${link.id} #hotness`).text('HOT!')
 }
 
 function attachReadEvent(link){
@@ -55,6 +73,7 @@ function markReadEvent(id){
 function markRead() {
   var readLink = $(this).data("url")
   var id = $(this).data("id")
+  debugger
   $.ajax( {
     method: 'PATCH',
     data: {read: true},
@@ -100,9 +119,10 @@ function linkHTML(link) {
               </p>
               <p class="link_buttons">
                 <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Read</button>
-                <a href='/links/${link.id}/edit'>Edit</a>
+                <input type="button" onclick="location.href='/links/${link.id}/edit';" value="Edit" />
                 <button class='delete-link'>Delete</button>
               </p>
+              <span id='hotness'></span>
             </div>`
     } else {
     return `<div class='link read' data-id='${link.id}' id="link-${link.id}">
@@ -114,9 +134,10 @@ function linkHTML(link) {
             </p>
             <p class="link_buttons">
               <button class="read-button" data-id='${link.id}' data-url='${link.url}'>Mark as Unread</button>
-              <a href='/links/${link.id}/edit'>Edit</a>
+              <input type="button" onclick="location.href='/links/${link.id}/edit';" value="Edit" />
               <button class='delete-link'>Delete</button>
             </p>
+            <span id='hotness'></span>
           </div>`
       }
 }
