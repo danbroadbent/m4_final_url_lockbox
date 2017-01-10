@@ -44,7 +44,7 @@ function renderLink(link){
 function attachHotness(link){
   $.get("https://db-mod4finalservice.herokuapp.com/api/v1/reads")
   .then(function(hotLinks){
-    hotLinks.forEach( attachHotTag.bind(hotLinks, link) )
+    hotLinks.forEach( attachHotTag.bind(hotLinks, link))
   })
 }
 
