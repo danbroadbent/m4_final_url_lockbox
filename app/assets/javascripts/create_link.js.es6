@@ -67,7 +67,7 @@ function markRead() {
   .then($.ajax( {
     method: 'POST',
     data: {url: readLink},
-    url: "https://db-mod4finalservice.herokuapp.com/"
+    url: "https://db-mod4finalservice.herokuapp.com/api/v1/reads"
   }))
 }
 
